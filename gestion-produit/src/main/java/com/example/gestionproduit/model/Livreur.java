@@ -24,6 +24,7 @@ public class Livreur {
     private String email;
     
     @DBRef
+     @JsonManagedReference
     private Voiture voiture;
 
    

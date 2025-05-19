@@ -3,6 +3,9 @@ package com.example.gestionproduit.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -18,6 +21,7 @@ public class Voiture {
     private double co2ParKm;
 
     @DBRef
+      @JsonBackReference 
     private Livreur livreur;
 
     private StatutVoiture statutVoiture = StatutVoiture.DISPONIBLE;  // Par défaut DISPONIBLE

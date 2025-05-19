@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/livreurs")
 @CrossOrigin(origins = "http://localhost:4200")
+
 @RequiredArgsConstructor
 public class LivreurController {
 
@@ -52,7 +53,7 @@ public class LivreurController {
     @PostMapping("/{idLivreur}/assigner-commandes")
     public Livreur assignerCommandes(
             @PathVariable String idLivreur,
-            @RequestParam List<String> idCommandes) {
+            @RequestBody List<String> idCommandes) {
         return livreurService.assignerCommandesAuLivreur(idLivreur, idCommandes);
     }
 }
