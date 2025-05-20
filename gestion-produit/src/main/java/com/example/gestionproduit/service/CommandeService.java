@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,20 +156,18 @@ public class CommandeService {
         return commandeRepository.findAll();
     }
 
-    public void supprimerCommandeUtilisateur(String userId) {
-        List<Commande> commandes = commandeRepository.findAllByClient_Id(userId);
+   public void supprimerCommandeParId(String idCommande) {
+    Commande commande = commandeRepository.findById(idCommande)
+        .orElseThrow(() -> new RuntimeException("Commande introuvable"));
 
-        if (commandes.isEmpty()) {
-            throw new RuntimeException("Aucune commande trouvée pour cet utilisateur.");
-        }
-
-        for (Commande commande : commandes) {
-            if (commande.getProduits() != null && !commande.getProduits().isEmpty()) {
-                commandeProduitRepository.deleteAll(commande.getProduits());
-            }
-            commandeRepository.delete(commande);
-        }
+    if (commande.getProduits() != null && !commande.getProduits().isEmpty()) {
+        commandeProduitRepository.deleteAll(commande.getProduits());
     }
+
+    commandeRepository.delete(commande);
+}
+
+
 
     private void envoyerEmailConfirmationCommande(User user, Commande commande, String messagePromotionnel) {
         String subject = "Confirmation de votre commande";
