@@ -22,9 +22,9 @@ public interface ReservationRepository extends MongoRepository<Reservation, Stri
     // Compter le nombre de réservations d’un matériel
     int countByMaterielId(String materielId);
 
-    // Si tu veux filtrer par "nom" ou ID du réservant :
+    // Filtrer par nom ou ID du réservant
     List<Reservation> findByReservedBy(String reservedBy);
 
-    // Avec statut (utile pour l'historique ou filtrage)
+    // Avec filtre combiné
     List<Reservation> findByReservedByAndStatus(String reservedBy, ReservationStatus status);
 }

@@ -14,14 +14,21 @@ public class Reservation {
     @Id
     private String id;
 
-    // Optionnel : stocker un identifiant client ou une référence simple, car pas de gestion de User
-    private String reservedBy; // par exemple : un nom ou ID manuel
+    // Optionnel mais nécessaire pour traçabilité : prénom/nom/email/etc.
+    private String reservedBy;
 
+    // Référence au matériel réservé
     @DBRef
     private Materiel materiel;
+
+    // Optionnel : tu pourras rajouter un champ terrain si tu relies un terrain plus tard
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    // Par défaut : PENDING, changera après confirmation manuelle ou auto
     private ReservationStatus status = ReservationStatus.PENDING;
+
+    // Optionnel mais utile pour audit/logs
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

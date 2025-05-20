@@ -5,6 +5,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.gestionmateriel.model.Materiel;
 import com.example.gestionmateriel.repository.MaterielRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,9 +68,12 @@ public class MaterielService {
         }
     }
 
-    public Materiel createMaterielWithImage(Materiel materiel, MultipartFile file) {
-        String imageUrl = saveImage(file);
-        materiel.setImageUrl(imageUrl);
+    public Materiel createMaterielWithImage(Materiel materiel, MultipartFile imageFile) {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            // Ici, vous pouvez uploader l’image vers Cloudinary ou autre et stocker l’URL
+            String imageUrl = saveImage(imageFile);
+            materiel.setImageUrl(imageUrl);
+        }
         return materielRepository.save(materiel);
     }
 

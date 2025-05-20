@@ -3,6 +3,7 @@ package com.example.gestionmateriel.controller;
 
 import com.example.gestionmateriel.model.Materiel;
 import com.example.gestionmateriel.service.MaterielService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

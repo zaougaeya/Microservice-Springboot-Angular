@@ -1,5 +1,7 @@
 package com.example.gestionmateriel.service;
 
+import com.example.gestionmateriel.dto.ReservationCreateDTO;
+import com.example.gestionmateriel.dto.ReservationResponseDTO;
 import com.example.gestionmateriel.model.Materiel;
 import com.example.gestionmateriel.model.Reservation;
 import com.example.gestionmateriel.model.ReservationStatus;
@@ -20,22 +22,22 @@ public class ReservationService {
     private MaterielService materielService;
 
     /**
-     * Crée une nouvelle réservation si le matériel est disponible.
+     * Crée une nouvelle réservation à partir du DTO, après vérification de disponibilité.
      */
-    public Reservation createReservation(String reservedBy, Materiel materiel,
-                                         LocalDateTime startDate, LocalDateTime endDate) {
-        if (!isMaterielAvailable(materiel.getId(), startDate, endDate)) {
+    public Reservation createReservation(ReservationCreateDTO dto) {
+        Materiel materiel = materielService.getMaterielById(dto.getMaterielId())
+                .orElseThrow(() -> new RuntimeException("Matériel non trouvé avec l'ID : " + dto.getMaterielId()));
+
+        if (!isMaterielAvailable(materiel.getId(), dto.getStartDate(), dto.getEndDate())) {
             throw new RuntimeException("Matériel indisponible pour cette période.");
         }
 
         Reservation reservation = new Reservation();
-        reservation.setReservedBy(reservedBy);
+        reservation.setReservedBy(dto.getReservedBy());
         reservation.setMateriel(materiel);
-        reservation.setStartDate(startDate);
-        reservation.setEndDate(endDate);
+        reservation.setStartDate(dto.getStartDate());
+        reservation.setEndDate(dto.getEndDate());
         reservation.setStatus(ReservationStatus.CONFIRMED);
-
-
 
         return reservationRepository.save(reservation);
     }
@@ -50,16 +52,10 @@ public class ReservationService {
                 .noneMatch(r -> r.getStatus() != ReservationStatus.CANCELLED);
     }
 
-    /**
-     * Liste des réservations faites par un "utilisateur" (nom ou service libre).
-     */
     public List<Reservation> getReservationsByReservedBy(String reservedBy) {
         return reservationRepository.findByReservedBy(reservedBy);
     }
 
-    /**
-     * Annule une réservation.
-     */
     public void cancelReservation(String reservationId) {
         reservationRepository.findById(reservationId).ifPresent(reservation -> {
             reservation.setStatus(ReservationStatus.CANCELLED);
@@ -67,19 +63,23 @@ public class ReservationService {
         });
     }
 
-    /**
-     * Liste les réservations par statut (CONFIRMED, CANCELLED...).
-     */
     public List<Reservation> getReservationsByStatus(ReservationStatus status) {
         return reservationRepository.findByStatus(status);
     }
 
-    /**
-     * Liste toutes les réservations.
-     */
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
     }
 
-
+    public ReservationResponseDTO mapToDTO(Reservation reservation) {
+        ReservationResponseDTO dto = new ReservationResponseDTO();
+        dto.setId(reservation.getId());
+        dto.setReservedBy(reservation.getReservedBy());
+        dto.setMaterielId(reservation.getMateriel().getId());
+        dto.setMaterielName(reservation.getMateriel().getName());
+        dto.setStartDate(reservation.getStartDate());
+        dto.setEndDate(reservation.getEndDate());
+        dto.setStatus(reservation.getStatus().name());
+        return dto;
+    }
 }

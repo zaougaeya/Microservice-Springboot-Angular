@@ -1,18 +1,19 @@
 package com.example.gestionmateriel.controller;
 
+import com.example.gestionmateriel.dto.ReservationCreateDTO;
+import com.example.gestionmateriel.dto.ReservationResponseDTO;
 import com.example.gestionmateriel.model.Materiel;
 import com.example.gestionmateriel.model.Reservation;
 import com.example.gestionmateriel.model.ReservationStatus;
 import com.example.gestionmateriel.service.MaterielService;
 import com.example.gestionmateriel.service.ReservationService;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -24,47 +25,25 @@ public class ReservationController {
     @Autowired
     private MaterielService materielService;
 
-    // DTO pour la création de réservation
-    @Data
-    public static class CreateReservationRequest {
-        private String reservedBy;
-        private String materielId;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
-    }
-
-    /**
-     * Créer une réservation
-     */
     @PostMapping
-    public ResponseEntity<?> createReservation(@RequestBody CreateReservationRequest request) {
+
+    public ResponseEntity<?> createReservation(@RequestBody ReservationCreateDTO request) {
         try {
-            Materiel materiel = materielService.getMaterielById(request.getMaterielId())
-                    .orElseThrow(() -> new RuntimeException("Matériel introuvable"));
-
-            Reservation reservation = reservationService.createReservation(
-                    request.getReservedBy(),
-                    materiel,
-                    request.getStartDate(),
-                    request.getEndDate());
-
+            Reservation reservation = reservationService.createReservation(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(reservation);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    /**
-     * Obtenir les réservations faites par "reservedBy"
-     */
     @GetMapping("/by/{reservedBy}")
-    public List<Reservation> getReservationsByReservedBy(@PathVariable String reservedBy) {
-        return reservationService.getReservationsByReservedBy(reservedBy);
+    public List<ReservationResponseDTO> getReservationsByReservedBy(@PathVariable String reservedBy) {
+        List<Reservation> reservations = reservationService.getReservationsByReservedBy(reservedBy);
+        return reservations.stream()
+                .map(reservationService::mapToDTO)
+                .collect(Collectors.toList());
     }
 
-    /**
-     * Annuler une réservation
-     */
     @PostMapping("/{id}/cancel")
     public ResponseEntity<?> cancelReservation(@PathVariable String id) {
         try {
@@ -75,21 +54,20 @@ public class ReservationController {
         }
     }
 
-    /**
-     * Obtenir les réservations par statut
-     */
     @GetMapping("/status/{status}")
-    public List<Reservation> getByStatus(@PathVariable String status) {
-        return reservationService.getReservationsByStatus(
+    public List<ReservationResponseDTO> getByStatus(@PathVariable String status) {
+        List<Reservation> reservations = reservationService.getReservationsByStatus(
                 ReservationStatus.valueOf(status.toUpperCase()));
+        return reservations.stream()
+                .map(reservationService::mapToDTO)
+                .collect(Collectors.toList());
     }
 
-    /**
-     * Obtenir toutes les réservations (optionnel)
-     */
     @GetMapping("/calendar")
-    public List<Reservation> getAllReservations() {
-        return reservationService.getAllReservations();
+    public List<ReservationResponseDTO> getAllReservations() {
+        List<Reservation> reservations = reservationService.getAllReservations();
+        return reservations.stream()
+                .map(reservationService::mapToDTO)
+                .collect(Collectors.toList());
     }
-
 }

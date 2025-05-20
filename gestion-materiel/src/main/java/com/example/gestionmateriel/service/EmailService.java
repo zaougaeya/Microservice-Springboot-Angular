@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    @Autowired
+    /*@Autowired
     private JavaMailSender mailSender;
 
     public void sendReservationConfirmation(String to, String subject, String body) {
@@ -17,7 +17,7 @@ public class EmailService {
         message.setSubject(subject);
         message.setText(body);
         mailSender.send(message);
-    }
+    }*/
 
 
 }
