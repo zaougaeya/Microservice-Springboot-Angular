@@ -1,0 +1,98 @@
+
+📘 Guide: How to Use the `gestion-user` Microservice via `user-api`
+
+This guide shows how to consume the gestion-user microservice in any other Spring Boot service using the shared user-api module.
+
+---
+
+✅ Prerequisites
+
+- Java 17+
+- Spring Boot 3+
+- Eureka service registry running at http://localhost:8761
+- The gestion-user service registered in Eureka with name gestion-user
+- You have user-api built and installed locally via:
+  mvn clean install
+
+---
+
+🔌 Step 1: Add Dependency
+
+In your consuming microservice’s pom.xml:
+
+<dependency>
+  <groupId>com.example</groupId>
+  <artifactId>user-api</artifactId>
+  <version>1.0.0</version>
+</dependency>
+
+---
+
+⚙️ Step 2: Enable Feign Client Scanning
+
+In your main application class:
+
+@SpringBootApplication
+@EnableFeignClients(basePackages = "com.example.userapi.client")
+public class MyApp {
+  public static void main(String[] args) {
+    SpringApplication.run(MyApp.class, args);
+  }
+}
+
+---
+
+🧩 Step 3: Use UserClient Anywhere
+
+Inject the UserClient interface provided by user-api:
+
+@RestController
+@RequestMapping("/my-feature")
+public class MyFeatureController {
+
+  private final UserClient userClient;
+
+  public MyFeatureController(UserClient userClient) {
+    this.userClient = userClient;
+  }
+
+  @GetMapping("/user/{id}")
+  public UserResponseDTO getUser(@PathVariable String id, @RequestHeader("Authorization") String token) {
+    return userClient.getUserById(id, token);
+  }
+
+  @GetMapping("/me")
+  public UserResponseDTO getCurrentUser(@RequestHeader("Authorization") String token) {
+    return userClient.getCurrentUser(token);
+  }
+}
+
+---
+
+⚙️ Step 4: application.properties Example
+
+server.port=8083
+spring.application.name=your-service
+
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+eureka.instance.prefer-ip-address=true
+
+---
+
+🔐 Authorization
+
+All requests to UserClient require a valid JWT:
+
+GET /my-feature/me
+Authorization: Bearer <JWT_TOKEN>
+
+---
+
+✅ Bonus: What You Get from user-api
+
+| Method                      | Description                                 |
+|-----------------------------|---------------------------------------------|
+| getUserById(String id, token) | Get a specific user from gestion-user      |
+| getCurrentUser(token)        | Get current user from JWT                  |
+| UserResponseDTO              | Shared user structure                      |
+| Role / Job enums             | Shared definitions from gestion-user       |
