@@ -1,0 +1,4 @@
+com\example\userapi\model\Job.class
+com\example\userapi\model\Role.class
+com\example\userapi\dto\UserResponseDTO.class
+com\example\userapi\client\UserClient.class
