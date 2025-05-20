@@ -1,7 +1,7 @@
 package com.example.testclient.controller;
 
-import com.example.testclient.client.UserClient;
-import com.example.testclient.dto.UserResponseDTO;
+import com.example.userapi.dto.UserResponseDTO;
+import com.example.userapi.client.UserClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
