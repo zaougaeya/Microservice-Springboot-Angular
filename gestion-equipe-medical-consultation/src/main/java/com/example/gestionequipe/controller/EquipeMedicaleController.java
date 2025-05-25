@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 public class EquipeMedicaleController {
 
-    
+    @Autowired
     private EquipeMedicaleService equipeMedicaleService;
 
     // CREATE

@@ -16,7 +16,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/consultations")
 public class ConsultationController {
-    
+    @Autowired
     private ConsultationService consultationService;
 
     @PostMapping

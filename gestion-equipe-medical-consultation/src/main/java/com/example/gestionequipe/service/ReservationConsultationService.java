@@ -10,6 +10,7 @@ import com.example.gestionequipe.model.ReservationConsultation;
 import com.example.gestionequipe.repository.ConsultationRepository;
 import com.example.gestionequipe.repository.CreneauReservationRepository;
 import com.example.gestionequipe.repository.ReservationConsultationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,20 +19,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@RequiredArgsConstructor
 @Service
 public class ReservationConsultationService {
     private final ReservationConsultationRepository reservationConsultationRepository;
     private final ConsultationRepository consultationRepository;
     private final CreneauReservationRepository creneauRepository;
+    private final UserClient userClient;
+
     // Constructor injection
-    public ReservationConsultationService(ReservationConsultationRepository reservationRepo,
+   /* public ReservationConsultationService(ReservationConsultationRepository reservationRepo,
                                           ConsultationRepository consultationRepo,
-                                          CreneauReservationRepository creneauRepo) {
+                                          CreneauReservationRepository creneauRepo,
+                                          UserClient userClient) {
         this.reservationConsultationRepository = reservationRepo;
         this.consultationRepository = consultationRepo;
         this.creneauRepository = creneauRepo;
-    }
+        this.userClient = userClient;
+    }*/
+
 
 
     // CREATE
@@ -55,9 +61,17 @@ public class ReservationConsultationService {
 
         return false; // Aucun créneau ne couvre la période
     }*/
- public ReservationConsultation saveReservation(ReservationConsultation reservation) {
+ /*public ReservationConsultation saveReservation(ReservationConsultation reservation) {
      return reservationConsultationRepository.save(reservation);
- }
+ }*/
+
+    public ReservationConsultation saveReservation(ReservationConsultation reservation, String token) {
+        UserResponseDTO user = userClient.getCurrentUser(token);
+        System.out.println(user);
+
+        reservation.setPatientId(user.id());
+        return reservationConsultationRepository.save(reservation);
+    }
    /* public ReservationConsultation saveReservation(ReservationConsultation reservation) {
         // 1. Check if the creneau exists and is available
         String creneauId = reservation.getCreneauId();

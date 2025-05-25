@@ -18,7 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("creneaux")
 public class CreneauReservationController {
-    
+    @Autowired
     private CreneauReservationService service;
 
     @PostMapping

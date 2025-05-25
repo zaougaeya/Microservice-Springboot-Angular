@@ -9,6 +9,7 @@ import com.example.gestionequipe.repository.CreneauReservationRepository;
 import com.example.gestionequipe.service.ReservationConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,15 +22,22 @@ import java.util.Optional;
 
 public class ReservationConsultationController {
 
-    
+    @Autowired
     private ReservationConsultationService reservationService;
-    
+
     private CreneauReservationRepository creneauReservationRepository;
 
     // CREATE
-    @PostMapping
+   /* @PostMapping
     public ReservationConsultation createReservation(@RequestBody ReservationConsultation reservation) {
         return reservationService.saveReservation(reservation);
+    }*/
+
+    public ResponseEntity<ReservationConsultation> createReservation(
+            @RequestBody ReservationConsultation reservation,
+            @RequestHeader("Authorization") String token) {
+        ReservationConsultation saved = reservationService.saveReservation(reservation, token);
+        return ResponseEntity.ok(saved);
     }
 
     // READ all

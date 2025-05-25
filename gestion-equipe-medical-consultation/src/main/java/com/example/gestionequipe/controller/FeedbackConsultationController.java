@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("feedbacks")
 public class FeedbackConsultationController {
-    
+    @Autowired
     private FeedbackConsultationService feedbackConsultationService;
 
     // CREATE
