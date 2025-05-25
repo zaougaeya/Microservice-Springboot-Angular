@@ -1,4 +1,7 @@
 package com.example.gestionequipe.controller;
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
 
 import com.example.gestionequipe.model.User;
 import com.example.gestionequipe.service.UserService;
@@ -13,7 +16,7 @@ import java.util.Optional;
 
 public class UserController {
 
-    @Autowired
+    
     private UserService userService;
 
     // Get all users
@@ -46,3 +49,5 @@ public class UserController {
         userService.deleteUser(id);
     }
 }
+
+// TODO: Inject UserClient in UserController.java via constructor

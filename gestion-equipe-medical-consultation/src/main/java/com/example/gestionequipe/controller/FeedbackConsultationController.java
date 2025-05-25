@@ -1,5 +1,9 @@
 package com.example.gestionequipe.controller;
 
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
+
 import com.example.gestionequipe.model.FeedbackConsultation;
 import com.example.gestionequipe.service.FeedbackConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("feedbacks")
 public class FeedbackConsultationController {
-    @Autowired
+    
     private FeedbackConsultationService feedbackConsultationService;
 
     // CREATE
@@ -45,3 +49,6 @@ public class FeedbackConsultationController {
         return "Feedback supprimé avec succès.";
     }
 }
+
+
+// TODO: Inject UserClient in FeedbackConsultationController.java via constructor

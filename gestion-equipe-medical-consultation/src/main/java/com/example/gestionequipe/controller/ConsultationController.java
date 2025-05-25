@@ -1,5 +1,9 @@
 package com.example.gestionequipe.controller;
 
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
+
 import com.example.gestionequipe.model.Consultation;
 import com.example.gestionequipe.service.ConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +16,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/consultations")
 public class ConsultationController {
-    @Autowired
+    
     private ConsultationService consultationService;
 
     @PostMapping
@@ -41,3 +45,5 @@ public class ConsultationController {
         return "Consultation supprimée avec succès.";
     }
 }
+
+// TODO: Inject UserClient in ConsultationController.java via constructor

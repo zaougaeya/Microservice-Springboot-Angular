@@ -1,4 +1,7 @@
 package com.example.gestionequipe.controller;
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
 
 import com.example.gestionequipe.model.Equipment;
 import com.example.gestionequipe.service.EquipmentService;
@@ -11,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/equipments")
 public class EquipmentController {
 
-    @Autowired
+    
     private EquipmentService equipmentService;
 
     // CRUD
@@ -51,3 +54,5 @@ public class EquipmentController {
         return equipmentService.getEquipmentByCategory(category);
     }
 }
+
+// TODO: Inject UserClient in EquipmentController.java via constructor

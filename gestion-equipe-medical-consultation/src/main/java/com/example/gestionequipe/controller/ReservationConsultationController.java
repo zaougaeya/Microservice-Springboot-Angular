@@ -1,4 +1,7 @@
 package com.example.gestionequipe.controller;
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
 
 import com.example.gestionequipe.model.CreneauReservation;
 import com.example.gestionequipe.model.ReservationConsultation;
@@ -18,9 +21,9 @@ import java.util.Optional;
 
 public class ReservationConsultationController {
 
-    @Autowired
+    
     private ReservationConsultationService reservationService;
-    @Autowired
+    
     private CreneauReservationRepository creneauReservationRepository;
 
     // CREATE
@@ -66,3 +69,5 @@ public class ReservationConsultationController {
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return reservationService.getAvailableTimeSlotsForMedecin(medecinId, date);
     }}
+
+// TODO: Inject UserClient in ReservationConsultationController.java via constructor

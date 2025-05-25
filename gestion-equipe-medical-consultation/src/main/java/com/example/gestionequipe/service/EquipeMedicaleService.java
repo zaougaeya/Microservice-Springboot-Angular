@@ -1,4 +1,7 @@
 package com.example.gestionequipe.service;
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
 
 import com.example.gestionequipe.model.Consultation;
 import com.example.gestionequipe.model.EquipeMedicale;

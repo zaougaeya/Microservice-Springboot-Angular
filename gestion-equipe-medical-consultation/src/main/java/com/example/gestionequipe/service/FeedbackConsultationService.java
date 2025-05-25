@@ -1,5 +1,9 @@
 package com.example.gestionequipe.service;
 
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
+
 import com.example.gestionequipe.model.FeedbackConsultation;
 import com.example.gestionequipe.repository.FeedbackConsultationRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,7 @@
 package com.example.gestionequipe.controller;
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
 
 import com.example.gestionequipe.model.EquipeMedicale;
 import com.example.gestionequipe.service.EquipeMedicaleService;
@@ -12,7 +15,7 @@ import java.util.Optional;
 @RestController
 public class EquipeMedicaleController {
 
-    @Autowired
+    
     private EquipeMedicaleService equipeMedicaleService;
 
     // CREATE
@@ -48,3 +51,6 @@ public class EquipeMedicaleController {
 
 
 }
+
+
+// TODO: Inject UserClient in EquipeMedicaleController.java via constructor

@@ -1,5 +1,9 @@
 package com.example.gestionequipe.controller;
 
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
+
+
 
 import com.example.gestionequipe.model.CreneauReservation;
 import com.example.gestionequipe.service.CreneauReservationService;
@@ -14,7 +18,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("creneaux")
 public class CreneauReservationController {
-    @Autowired
+    
     private CreneauReservationService service;
 
     @PostMapping
@@ -54,3 +58,6 @@ public class CreneauReservationController {
 
 }
 
+
+
+// TODO: Inject UserClient in CreneauReservationController.java via constructor
