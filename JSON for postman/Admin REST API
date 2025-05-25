@@ -1,0 +1,268 @@
+{
+	"info": {
+		"_postman_id": "bbfe31d5-57c9-4ef0-98ff-8af1c5b64c04",
+		"name": "UserService - All API Tests",
+		"description": "Postman collection to test every UserController endpoint including JWT flow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36490242"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nomuser\": \"Ali\",\n  \"prenomuser\": \"Ben Salah\",\n  \"ageuser\": 25,\n  \"phoneuser\": \"12345678\",\n  \"sexeuser\": \"Homme\",\n  \"mailuser\": \"ali@example.com\",\n  \"passworduser\": \"test123\",\n  \"addresseuser\": \"Tunis\",\n  \"job\": \"JOUEUR\"\n}"
+				},
+				"url": {
+					"raw": "localhost:9090/api/users/register",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login (Get JWT Token)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"mailuser\": \"admin@example.com\",\n  \"passworduser\": \"admin123\"\n}"
+				},
+				"url": {
+					"raw": "localhost:9090/api/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Current User (/me)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODJhNTc4ZDJhZDY5NDYxNDY2N2FmM2IiLCJyb2xlIjoiVVNFUiIsImpvYiI6IkpPVUVVUiIsImlhdCI6MTc0NzYwNjQ3MSwiZXhwIjoxNzQ3NjkyODcxfQ.RxAN2c8jrG5hNOUdgrew1DpU7u2WmN6es_cLZ8MrbOJFts2xPa_g_ugvUBqODWmK"
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/users/me",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User by ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODJhNWQ0OGUzMTJjZDNjYTM2YzBjNGQiLCJyb2xlIjoiQURNSU4iLCJqb2IiOiJFTlRSQUlORVVSIiwiaWF0IjoxNzQ3NjA3MTk5LCJleHAiOjE3NDc2OTM1OTl9.-yw6tK0H-Iaxo4IcmBetkUHzudSFks3AVBwnITU67qybTK8iXZ-Ly2xHzfN-76Jg"
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/users/682a578d2ad694614667af3b",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"682a578d2ad694614667af3b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User by ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODJhNWQ0OGUzMTJjZDNjYTM2YzBjNGQiLCJyb2xlIjoiQURNSU4iLCJqb2IiOiJFTlRSQUlORVVSIiwiaWF0IjoxNzQ3NjA3MzA4LCJleHAiOjE3NDc2OTM3MDh9.9whsoXGl4x98KQhtAc6fT7awGQvTiPiHPdRVkndxnj0Z14f7c_r32ro1ZxeaT4BC"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nomuser\": \"Updated\",\n  \"prenomuser\": \"User\",\n  \"ageuser\": 30,\n  \"phoneuser\": \"88888888\",\n  \"sexeuser\": \"Homme\",\n  \"passworduser\": \"newpass123\",\n  \"addresseuser\": \"New Address\",\n  \"job\": \"FOURNISSEUR\"\n}"
+				},
+				"url": {
+					"raw": "localhost:9090/api/users/682a5d48e312cd3ca36c0c4d",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"682a5d48e312cd3ca36c0c4d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Admin User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODJhNWQ0OGUzMTJjZDNjYTM2YzBjNGQiLCJyb2xlIjoiQURNSU4iLCJqb2IiOiJFTlRSQUlORVVSIiwiaWF0IjoxNzQ3NjA2OTA2LCJleHAiOjE3NDc2OTMzMDZ9.xQE7NItMX4ArLi7T0WNa-lDxq-b5Sr6MyVZvZq1lBSJaEiPJuNgGFHrGGZcwwYOW"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nomuser\": \"Admin\",\n  \"prenomuser\": \"Root\",\n  \"ageuser\": 35,\n  \"phoneuser\": \"99999999\",\n  \"sexeuser\": \"Homme\",\n  \"mailuser\": \"admin1@example.com\",\n  \"passworduser\": \"adminpass\",\n  \"addresseuser\": \"HQ\",\n  \"job\": \"ENTRAINEUR\"\n}"
+				},
+				"url": {
+					"raw": "localhost:9090/api/users/admin",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Password Reset",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"mailuser\": \"updated@example.com\" }"
+				},
+				"url": {
+					"raw": "localhost:9090/api/users/reset-request",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"reset-request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"mailuser\": \"updted@example.com\",\n  \"newPassword\": \"newpass123\",\n  \"token\": \"acaee952-3358-4c55-b631-a98ba9b23367\"\n}"
+				},
+				"url": {
+					"raw": "localhost:9090/api/users/reset-password",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"reset-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete User by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer <TOKEN>"
+					}
+				],
+				"url": {
+					"raw": "localhost:9090/api/users/USER_ID",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"users",
+						"USER_ID"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
