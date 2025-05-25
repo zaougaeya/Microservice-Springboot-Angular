@@ -1,1 +1,12 @@
 user-api/.idea/vcs.xml
+# Ignore compiled class files
+user-api/target/**/*.class
+
+# Ignore Maven target directory (build outputs)
+user-api/target/
+
+# Ignore IDE config files (JetBrains IntelliJ IDEA)
+user-api/.idea/
+
+# Ignore specific project files
+gestion-user/pom.xml
