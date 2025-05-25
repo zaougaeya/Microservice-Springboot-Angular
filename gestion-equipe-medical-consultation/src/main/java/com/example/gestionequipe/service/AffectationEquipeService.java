@@ -1,7 +1,7 @@
-package com.example.userservice.service;
+package com.example.gestionequipe.service;
 
-import com.example.userservice.model.AffectationEquipe;
-import com.example.userservice.repository.AffectationEquipeRepository;
+import com.example.gestionequipe.model.AffectationEquipe;
+import com.example.gestionequipe.repository.AffectationEquipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

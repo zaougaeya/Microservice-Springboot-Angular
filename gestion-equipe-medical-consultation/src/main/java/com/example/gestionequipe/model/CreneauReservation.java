@@ -1,4 +1,4 @@
-package com.example.userservice.model;
+package com.example.gestionequipe.model;
 
 
 import org.springframework.data.annotation.Id;

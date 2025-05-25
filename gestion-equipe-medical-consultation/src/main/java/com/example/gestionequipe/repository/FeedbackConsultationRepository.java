@@ -1,8 +1,7 @@
-package com.example.userservice.repository;
+package com.example.gestionequipe.repository;
 
-import com.example.userservice.model.FeedbackConsultation;
+import com.example.gestionequipe.model.FeedbackConsultation;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

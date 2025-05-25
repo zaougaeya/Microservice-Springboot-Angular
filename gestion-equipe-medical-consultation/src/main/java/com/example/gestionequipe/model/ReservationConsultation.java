@@ -1,4 +1,4 @@
-package com.example.userservice.model;
+package com.example.gestionequipe.model;
 
 import lombok.Setter;
 import org.springframework.data.annotation.Id;

@@ -1,7 +1,7 @@
-package com.example.userservice.repository;
+package com.example.gestionequipe.repository;
 
 
-import com.example.userservice.model.ReservationConsultation;
+import com.example.gestionequipe.model.ReservationConsultation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;

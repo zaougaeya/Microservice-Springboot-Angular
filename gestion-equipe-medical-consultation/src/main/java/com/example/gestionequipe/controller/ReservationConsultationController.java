@@ -1,15 +1,14 @@
-package com.example.userservice.controller;
+package com.example.gestionequipe.controller;
 
-import com.example.userservice.model.CreneauReservation;
-import com.example.userservice.model.ReservationConsultation;
-import com.example.userservice.repository.CreneauReservationRepository;
-import com.example.userservice.service.ReservationConsultationService;
+import com.example.gestionequipe.model.CreneauReservation;
+import com.example.gestionequipe.model.ReservationConsultation;
+import com.example.gestionequipe.repository.CreneauReservationRepository;
+import com.example.gestionequipe.service.ReservationConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 

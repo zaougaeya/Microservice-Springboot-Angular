@@ -1,18 +1,16 @@
-package com.example.userservice.service;
+package com.example.gestionequipe.service;
 
 
-import com.example.userservice.model.Consultation;
-import com.example.userservice.model.CreneauReservation;
-import com.example.userservice.model.ReservationConsultation;
-import com.example.userservice.repository.ConsultationRepository;
-import com.example.userservice.repository.CreneauReservationRepository;
-import com.example.userservice.repository.ReservationConsultationRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
+import com.example.gestionequipe.model.Consultation;
+import com.example.gestionequipe.model.CreneauReservation;
+import com.example.gestionequipe.model.ReservationConsultation;
+import com.example.gestionequipe.repository.ConsultationRepository;
+import com.example.gestionequipe.repository.CreneauReservationRepository;
+import com.example.gestionequipe.repository.ReservationConsultationRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

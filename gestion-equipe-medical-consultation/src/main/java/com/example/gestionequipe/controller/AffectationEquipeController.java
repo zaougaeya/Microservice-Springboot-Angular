@@ -1,6 +1,6 @@
-package com.example.userservice.controller;
+package com.example.gestionequipe.controller;
 
-import com.example.userservice.service.AffectationEquipeService;
+import com.example.gestionequipe.service.AffectationEquipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

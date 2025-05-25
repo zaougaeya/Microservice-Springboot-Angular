@@ -1,13 +1,7 @@
-package com.example.userservice.service;
+package com.example.gestionequipe.service;
 
-import com.example.userservice.model.Consultation;
-import com.example.userservice.model.EquipeMedicale;
-import com.example.userservice.model.FeedbackConsultation;
-import com.example.userservice.model.User;
-import com.example.userservice.repository.ConsultationRepository;
-import com.example.userservice.repository.EquipeMedicaleRepository;
-import com.example.userservice.repository.FeedbackConsultationRepository;
-import com.example.userservice.repository.UserRepository;
+import com.example.gestionequipe.model.Consultation;
+import com.example.gestionequipe.repository.ConsultationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,10 @@
-package com.example.userservice.controller;
+package com.example.gestionequipe.controller;
 
-import com.example.userservice.model.Equipment;
-import com.example.userservice.service.EquipmentService;
+import com.example.gestionequipe.model.Equipment;
+import com.example.gestionequipe.service.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController

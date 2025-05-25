@@ -1,8 +1,7 @@
-package com.example.userservice.repository;
+package com.example.gestionequipe.repository;
 
-import com.example.userservice.model.CreneauReservation;
+import com.example.gestionequipe.model.CreneauReservation;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;
 import java.util.List;

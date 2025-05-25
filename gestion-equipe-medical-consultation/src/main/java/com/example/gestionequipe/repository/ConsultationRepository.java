@@ -1,6 +1,6 @@
-package com.example.userservice.repository;
+package com.example.gestionequipe.repository;
 
-import com.example.userservice.model.Consultation;
+import com.example.gestionequipe.model.Consultation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,8 @@
-package com.example.userservice.repository;
+package com.example.gestionequipe.repository;
 
-import com.example.userservice.model.Equipment;
+import com.example.gestionequipe.model.Equipment;
 import org.springframework.data.mongodb.repository.MongoRepository;
+
 import java.util.List;
 
 public interface EquipmentRepository extends MongoRepository<Equipment, String> {

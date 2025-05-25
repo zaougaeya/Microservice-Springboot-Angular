@@ -1,9 +1,10 @@
-package com.example.userservice.service;
+package com.example.gestionequipe.service;
 
-import com.example.userservice.model.Equipment;
-import com.example.userservice.repository.EquipmentRepository;
+import com.example.gestionequipe.model.Equipment;
+import com.example.gestionequipe.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
