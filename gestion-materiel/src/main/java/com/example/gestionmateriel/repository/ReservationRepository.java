@@ -10,17 +10,17 @@ import java.util.List;
 public interface ReservationRepository extends MongoRepository<Reservation, String> {
 
     // Liste des réservations par matériel
-    List<Reservation> findByMaterielId(String materielId);
+    List<Reservation> findByMaterielId(String id);
 
     // Liste des réservations selon le statut
     List<Reservation> findByStatus(ReservationStatus status);
 
     // Vérification des conflits de réservation (intersection de dates)
     List<Reservation> findByMaterielIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-            String materielId, LocalDateTime end, LocalDateTime start);
+            String id, LocalDateTime end, LocalDateTime start);
 
     // Compter le nombre de réservations d’un matériel
-    int countByMaterielId(String materielId);
+    int countByMaterielId(String id);
 
     // Filtrer par nom ou ID du réservant
     List<Reservation> findByReservedBy(String reservedBy);

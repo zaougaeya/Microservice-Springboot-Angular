@@ -2,10 +2,8 @@ package com.example.gestionmateriel.controller;
 
 import com.example.gestionmateriel.dto.ReservationCreateDTO;
 import com.example.gestionmateriel.dto.ReservationResponseDTO;
-import com.example.gestionmateriel.model.Materiel;
 import com.example.gestionmateriel.model.Reservation;
 import com.example.gestionmateriel.model.ReservationStatus;
-import com.example.gestionmateriel.service.MaterielService;
 import com.example.gestionmateriel.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,20 +15,18 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/reservations")
+@CrossOrigin(origins = "*") // Ajouté si tu veux accepter les requêtes Angular
 public class ReservationController {
 
     @Autowired
     private ReservationService reservationService;
 
-    @Autowired
-    private MaterielService materielService;
-
     @PostMapping
-
     public ResponseEntity<?> createReservation(@RequestBody ReservationCreateDTO request) {
         try {
             Reservation reservation = reservationService.createReservation(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(reservation);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(reservationService.mapToDTO(reservation));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -38,10 +34,8 @@ public class ReservationController {
 
     @GetMapping("/by/{reservedBy}")
     public List<ReservationResponseDTO> getReservationsByReservedBy(@PathVariable String reservedBy) {
-        List<Reservation> reservations = reservationService.getReservationsByReservedBy(reservedBy);
-        return reservations.stream()
-                .map(reservationService::mapToDTO)
-                .collect(Collectors.toList());
+        return reservationService.getReservationsByReservedBy(reservedBy)
+                .stream().map(reservationService::mapToDTO).collect(Collectors.toList());
     }
 
     @PostMapping("/{id}/cancel")
@@ -56,18 +50,14 @@ public class ReservationController {
 
     @GetMapping("/status/{status}")
     public List<ReservationResponseDTO> getByStatus(@PathVariable String status) {
-        List<Reservation> reservations = reservationService.getReservationsByStatus(
-                ReservationStatus.valueOf(status.toUpperCase()));
-        return reservations.stream()
-                .map(reservationService::mapToDTO)
-                .collect(Collectors.toList());
+        return reservationService.getReservationsByStatus(
+                        ReservationStatus.valueOf(status.toUpperCase()))
+                .stream().map(reservationService::mapToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/calendar")
     public List<ReservationResponseDTO> getAllReservations() {
-        List<Reservation> reservations = reservationService.getAllReservations();
-        return reservations.stream()
-                .map(reservationService::mapToDTO)
-                .collect(Collectors.toList());
+        return reservationService.getAllReservations()
+                .stream().map(reservationService::mapToDTO).collect(Collectors.toList());
     }
 }

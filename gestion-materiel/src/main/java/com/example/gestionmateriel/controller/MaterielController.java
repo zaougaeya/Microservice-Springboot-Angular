@@ -83,7 +83,9 @@ public class MaterielController {
                                                             @RequestParam(value = "sportType", required = false) String sportType,
                                                             @RequestParam("quantity") int quantity,
                                                             @RequestParam(value = "color", required = false) String color,
-                                                            @RequestParam("state") String state) {
+                                                            @RequestParam("state") String state,
+                                                            @RequestParam(value = "price", required = false) Double price){
+
         try {
             Materiel materiel = new Materiel();
             materiel.setName(name);
@@ -91,6 +93,7 @@ public class MaterielController {
             materiel.setQuantity(quantity);
             materiel.setColor(color);
             materiel.setState(state);
+            materiel.setPrice(price);
 
             // Sauvegarde l'image sur Cloudinary
             String imageUrl = materielService.saveImage(file);
