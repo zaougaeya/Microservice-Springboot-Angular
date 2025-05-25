@@ -1,34 +1,33 @@
-// src/main/java/com/example/userservice/controller/MaterielController.java
 package com.example.gestionmateriel.controller;
 
 import com.example.gestionmateriel.model.Materiel;
 import com.example.gestionmateriel.service.MaterielService;
-
+import com.example.userapi.client.UserClient;
+import com.example.userapi.dto.UserResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/materiels")
 @CrossOrigin(origins = "http://localhost:4200")
 public class MaterielController {
 
+    private final MaterielService materielService;
+    private final UserClient userClient;
+
     @Autowired
-    private MaterielService materielService;
+    public MaterielController(MaterielService materielService, UserClient userClient) {
+        this.materielService = materielService;
+        this.userClient = userClient;
+    }
 
     @GetMapping
     public ResponseEntity<List<Materiel>> getAllMateriel() {
@@ -68,13 +67,22 @@ public class MaterielController {
     }
 
     @PostMapping
-    public ResponseEntity<Materiel> createMateriel(@RequestBody Materiel materiel) {
-        Materiel createdMateriel = materielService.createMateriel(materiel);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdMateriel.getId())
-                .toUri();
-        return ResponseEntity.created(location).body(createdMateriel);
+    public ResponseEntity<Materiel> createMateriel(@RequestBody Materiel materiel,
+                                                   @RequestHeader("Authorization") String token) {
+        try {
+            UserResponseDTO user = userClient.getCurrentUser(token);
+            //materiel.setCreatedByUserId(user.id()); // Link material to current user
+            System.out.println(user);
+
+            Materiel createdMateriel = materielService.createMateriel(materiel);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(createdMateriel.getId())
+                    .toUri();
+            return ResponseEntity.created(location).body(createdMateriel);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Utilisateur non valide", e);
+        }
     }
 
     @PostMapping("/upload")
@@ -84,9 +92,11 @@ public class MaterielController {
                                                             @RequestParam("quantity") int quantity,
                                                             @RequestParam(value = "color", required = false) String color,
                                                             @RequestParam("state") String state,
-                                                            @RequestParam(value = "price", required = false) Double price){
-
+                                                            @RequestParam(value = "price", required = false) Double price,
+                                                            @RequestHeader("Authorization") String token) {
         try {
+            UserResponseDTO user = userClient.getCurrentUser(token);
+
             Materiel materiel = new Materiel();
             materiel.setName(name);
             materiel.setSportType(sportType);
@@ -94,12 +104,11 @@ public class MaterielController {
             materiel.setColor(color);
             materiel.setState(state);
             materiel.setPrice(price);
+           // materiel.setCreatedByUserId(user.id());
 
-            // Sauvegarde l'image sur Cloudinary
             String imageUrl = materielService.saveImage(file);
             materiel.setImageUrl(imageUrl);
 
-            // Sauvegarde le materiel dans la base de données
             Materiel createdMateriel = materielService.createMateriel(materiel);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")

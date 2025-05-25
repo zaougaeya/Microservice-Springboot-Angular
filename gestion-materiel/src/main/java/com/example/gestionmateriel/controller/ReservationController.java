@@ -18,6 +18,9 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*") // Ajouté si tu veux accepter les requêtes Angular
 public class ReservationController {
 
+
+
+
     @Autowired
     private ReservationService reservationService;
 
