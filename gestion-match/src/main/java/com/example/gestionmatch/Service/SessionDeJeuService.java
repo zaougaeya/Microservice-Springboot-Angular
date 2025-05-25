@@ -1,0 +1,80 @@
+package com.example.gestionmatch.Service;
+
+import com.example.userservice.model.SessionDeJeu;
+import com.example.userservice.model.User;
+import com.example.userservice.repository.SessionDeJeuRepository;
+import com.example.userservice.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class SessionDeJeuService {
+
+    private final SessionDeJeuRepository sessionRepo;
+    private final SessionDeJeuRepository sessionDeJeuRepository;
+    private final UserRepository userRepository;
+    // ✅ Constructeur recommandé pour l'injection de dépendance
+
+
+    public List<SessionDeJeu> getAllSessions() {
+        return sessionRepo.findAll();
+    }
+
+    public Optional<SessionDeJeu> getSessionById(String id) {
+        return sessionRepo.findById(id);
+    }
+
+    public SessionDeJeu createSession(SessionDeJeu session) {
+        return sessionRepo.save(session);
+    }
+
+    public SessionDeJeu updateSession(String id, SessionDeJeu session) {
+        session.setId(id);
+        return sessionRepo.save(session);
+    }
+
+    public void deleteSession(String id) {
+        sessionRepo.deleteById(id);
+    }
+
+    public List<SessionDeJeu> findByTypeMatch(String type) {
+        return sessionRepo.findByTypeMatch(type);
+    }
+
+    public List<SessionDeJeu> findByStatut(String statut) {
+        return sessionRepo.findByStatut(statut);
+    }
+
+    public List<SessionDeJeu> findByTerrainId(String terrainId) {
+        return sessionRepo.findByTerrainId(terrainId);
+    }
+    public List<SessionDeJeu> searchSessions(LocalDateTime dateDebut, LocalDateTime dateFin, String typeMatch) {
+        return sessionDeJeuRepository.findByDateAndType(dateDebut, dateFin, typeMatch);
+    }
+
+public void rejoindreSession(String idSession, String equipeId) {
+    System.err.println("id" + idSession);
+
+SessionDeJeu session = sessionRepo.findById(idSession).get();
+ int n=   session.getJoueursInscrits();
+ n++;
+ session.setJoueursInscrits(n);
+ session.getJoueurs().add("6819fd7706093610282c9fbe");
+    System.err.println("session" + session);
+ sessionRepo.save(session);
+
+    Optional<User>  user= userRepository.findById("6819fd7706093610282c9fbe");
+    user.get().setEquipeId(equipeId);
+    userRepository.save(user.get());
+    }
+
+}
+
+
+
