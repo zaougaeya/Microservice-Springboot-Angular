@@ -26,7 +26,6 @@ public class EquipeService {
     private final UserRepository userRepository;
 
     // Injection des dépendances par le constructeur
-    @Autowired
     public EquipeService(EquipeRepository equipeRepository,
                          JoueurRepository joueurRepository,
                          MatchRepository matchRepository,

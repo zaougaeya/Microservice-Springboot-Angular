@@ -13,8 +13,8 @@ public class Joueur {
     private String nom;
     private String prenom;
     private int age;
-    private String position;  // Exemple : Attaquant, Défenseur...
-    private int numero;  // Numéro du maillot
+    private String position;
+    private int numero;
 
     private String equipeId;
     @DBRef

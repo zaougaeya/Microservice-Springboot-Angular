@@ -15,10 +15,15 @@ import java.util.Optional;
 @RequestMapping("/api/sessions")
 @CrossOrigin(origins = "http://localhost:4200")
 public class SessionDeJeuController {
-    @Autowired
-    private SessionDeJeuService sessionService;
-    @Autowired
-    private SessionDeJeuRepository sessionDeJeuRepository;
+
+    private final SessionDeJeuService sessionService;
+    private final SessionDeJeuRepository sessionDeJeuRepository;
+
+    public SessionDeJeuController(SessionDeJeuService sessionService, SessionDeJeuRepository sessionDeJeuRepository) {
+        this.sessionService = sessionService;
+        this.sessionDeJeuRepository = sessionDeJeuRepository;
+    }
+
 
     @GetMapping
     public List<SessionDeJeu> getAllSessions() {

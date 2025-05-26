@@ -11,10 +11,13 @@ import java.util.Optional;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/entraineurs")
+
 public class EntraineurController {
 
-    @Autowired
-    private EntraineurService entraineurService;
+    private final EntraineurService entraineurService;
+    public EntraineurController(EntraineurService entraineurService) {
+        this.entraineurService = entraineurService;
+    }
 
     @PostMapping
     public Entraineur createEntraineur(@RequestBody Entraineur entraineur) {

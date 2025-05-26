@@ -15,15 +15,15 @@ public class Match {
     private String id;
 
     private Date date;
-    private Date startDate; // Date de début du match
-    private Date endDate;   // Date de fin du match
+    private Date startDate;
+    private Date endDate;
 
-    private String type; // Renommé de title vers type (champ ajouté)
+    private String type;
 
     @Transient
-    private Equipe equipe1; // Première équipe
+    private Equipe equipe1;
     @Transient
-    private Equipe equipe2; // Deuxième équipe
+    private Equipe equipe2;
     @Transient
     private Terrain terrain;
 
@@ -31,8 +31,8 @@ public class Match {
     private String idEquipe2;
     private String idTerrain;
 
-    private Integer scoreEquipe1 = null; // Score initial
-    private Integer scoreEquipe2 = null; // Score initial
+    private Integer scoreEquipe1 = null;
+    private Integer scoreEquipe2 = null;
 
     private Integer cartonsJaunesEquipe1 = null;
     private Integer cartonsRougesEquipe1 = null;
@@ -41,5 +41,5 @@ public class Match {
     private Integer fautesEquipe1 = null;
     private Integer fautesEquipe2 = null;
 
-    private boolean matchJoue; // Indicateur si le match est joué
+    private boolean matchJoue;
 }

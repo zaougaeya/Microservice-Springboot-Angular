@@ -18,6 +18,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/equipes")
 @CrossOrigin(origins = "http://localhost:4200")
+
 public class EquipeController {
 
     private final EquipeService equipeService;

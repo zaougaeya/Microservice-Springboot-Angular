@@ -12,11 +12,14 @@ import java.util.Optional;
 
 @Service
 public class TerrainService {
-    @Autowired
-    private TerrainRepository terrainRepository;
+    private final TerrainRepository terrainRepository;
+    private final MatchRepository matchRepository;
 
-    @Autowired
-    private MatchRepository matchRepository;
+    public TerrainService(TerrainRepository terrainRepository, MatchRepository matchRepository) {
+        this.terrainRepository = terrainRepository;
+        this.matchRepository = matchRepository;
+    }
+
 
     // Créer un terrain
     public Terrain createTerrain(Terrain terrain) {

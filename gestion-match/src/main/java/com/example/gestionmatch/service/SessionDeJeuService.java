@@ -12,11 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class SessionDeJeuService {
 
     private final SessionDeJeuRepository sessionRepo;
     private final UserRepository userRepository;
+
+    public SessionDeJeuService(SessionDeJeuRepository sessionRepo, UserRepository userRepository) {
+        this.sessionRepo = sessionRepo;
+        this.userRepository = userRepository;
+    }
     // ✅ Constructeur recommandé pour l'injection de dépendance
 
 

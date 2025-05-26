@@ -12,9 +12,11 @@ import java.util.List;
 @RequestMapping("/api/joueurs")
 @CrossOrigin(origins = "http://localhost:4200")
 public class JoueurController {
-    @Autowired
-    private JoueurService joueurService;
 
+   private final JoueurService joueurService;
+   public JoueurController(JoueurService joueurService) {
+    this.joueurService = joueurService;
+}
     // Get all users
     @GetMapping
     public List<Joueur> getAllJoueurs() {

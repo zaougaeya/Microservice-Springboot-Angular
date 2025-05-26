@@ -10,8 +10,11 @@ import java.util.Optional;
 
 @Service
 public class JoueurService {
-    @Autowired
-    private JoueurRepository joueurRepository;
+
+    private final JoueurRepository joueurRepository;
+    public JoueurService(JoueurRepository joueurRepository) {
+        this.joueurRepository = joueurRepository;
+    }
 
     // Get all joueurs
     public List<Joueur> getAllJoueurs() {
