@@ -11,6 +11,10 @@ public class UserMapper {
             user.getId(),
             user.getNomuser(),
             user.getPrenomuser(),
+            user.getAgeuser(),
+            user.getPhoneuser(),
+            user.getSexeuser(),
+            user.getAddresseuser(),
             user.getMailuser(),
             user.getJob(),
             user.getRole()
