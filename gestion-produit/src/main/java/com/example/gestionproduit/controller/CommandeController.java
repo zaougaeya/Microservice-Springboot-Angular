@@ -1,7 +1,5 @@
 package com.example.gestionproduit.controller;
 
-
-
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
@@ -51,7 +49,7 @@ public class CommandeController {
             // 👇 Récupération des infos utilisateur depuis gestion-user
             UserResponseDTO utilisateur = userClient.getUserById(userId, token);
 
-            Commande commande = commandeService.creerCommandeDepuisPanier(userId);
+            Commande commande = commandeService.creerCommandeDepuisPanier(userId,token);
             return ResponseEntity.ok(commande);
         } catch (RuntimeException e) {
             String messageErreur = e.getMessage().toLowerCase();
