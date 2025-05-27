@@ -13,7 +13,8 @@ import com.example.gestionproduit.model.StatutCommande;
 
 @Repository
 public interface CommandeRepository extends MongoRepository<Commande, String> {
-   List<Commande> findAllByClient_Id(String id);
+   List<Commande> findAllByClientId(String clientId);
+
    int countByLivreur_IdLivreur(String idLivreur);
    @Query("{ 'livreur.$id' : ?0 }")
 List<Commande> findByLivreurIdLivreur(String idLivreur);

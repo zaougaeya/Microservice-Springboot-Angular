@@ -27,8 +27,7 @@ public class Commande {
      @JsonBackReference
     private Livreur livreur; 
 
-    @DBRef
-    private User client; 
+   private String clientId;
 
     private StatutCommande statutCommande; 
     private String adresseLivraison; 
