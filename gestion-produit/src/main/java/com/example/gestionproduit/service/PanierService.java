@@ -84,6 +84,8 @@ public class PanierService {
 
         // 7️⃣ Recalcul et sauvegarde
         panier.calculerMontants();
+        panier.setNomUtilisateur(user.nomuser());
+    panier.setEmailUtilisateur(user.mailuser());
         return panierRepository.save(panier);
     }
 
