@@ -22,32 +22,11 @@ public class CommandeController {
     private final CommandeService commandeService;
      private final UserClient userClient;
 
-    // ✅ Créer une commande à partir du panier utilisateur
-     // @PostMapping("/creer/{userId}")
-    /*public ResponseEntity<?> creerCommande(@PathVariable String userId) {
-        try {
-            Commande commande = commandeService.creerCommandeDepuisPanier(userId);
-            return ResponseEntity.ok(commande);
-        } catch (RuntimeException e) {
-            String messageErreur = e.getMessage().toLowerCase();
-            if (messageErreur.contains("panier est vide")) {
-                return ResponseEntity.badRequest().body("Erreur : Le panier est vide.");
-            } else if (messageErreur.contains("panier non trouvé")) {
-                return ResponseEntity.badRequest().body("Erreur : Panier non trouvé pour l'utilisateur.");
-            } else if (messageErreur.contains("utilisateur non trouvé")) {
-                return ResponseEntity.badRequest().body("Erreur : Utilisateur non trouvé.");
-            }
-            return ResponseEntity.badRequest().body("Erreur : " + e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erreur interne du serveur : " + e.getMessage());
-        }
-    }
-*/
+    
 @PostMapping("/creer/{userId}")
     public ResponseEntity<?> creerCommande(@PathVariable String userId, @RequestHeader("Authorization") String token) {
         try {
-            // 👇 Récupération des infos utilisateur depuis gestion-user
-            UserResponseDTO utilisateur = userClient.getUserById(userId, token);
+           
 
             Commande commande = commandeService.creerCommandeDepuisPanier(userId,token);
             return ResponseEntity.ok(commande);

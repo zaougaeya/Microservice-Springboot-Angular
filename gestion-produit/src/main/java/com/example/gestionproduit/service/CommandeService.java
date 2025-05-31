@@ -34,8 +34,7 @@ public class CommandeService {
             throw new RuntimeException("Le panier est vide.");
         }
 
-        // 👤 2. Récupérer les informations utilisateur via gestion-user
-        UserResponseDTO user = userClient.getUserById(userId, token);
+         UserResponseDTO user = userClient.getCurrentUser(token);
         if (user == null) {
             throw new RuntimeException("Utilisateur non trouvé avec l'ID : " + userId);
         }

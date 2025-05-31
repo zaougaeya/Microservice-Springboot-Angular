@@ -36,11 +36,12 @@ public class PanierService {
             throw new RuntimeException("Stock insuffisant pour le produit : " + produit.getNom());
         }
 
-        // 2️⃣ Vérification que l'utilisateur existe (via gestion-user)
-        UserResponseDTO user = userClient.getUserById(userId, token);
-        if (user == null) {
-            throw new RuntimeException("Utilisateur non trouvé avec l'ID : " + userId);
-        }
+     UserResponseDTO user = userClient.getCurrentUser(token);
+
+if (!user.id().equals(userId)) {
+    throw new SecurityException("Accès interdit : l'utilisateur ne correspond pas au token.");
+}
+      
 
         // 3️⃣ Création du produit commandé
         CommandeProduit cp = new CommandeProduit();
