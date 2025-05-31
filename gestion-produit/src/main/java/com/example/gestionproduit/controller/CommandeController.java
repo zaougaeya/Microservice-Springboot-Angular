@@ -28,8 +28,8 @@ public class CommandeController {
         try {
            
 
-            Commande commande = commandeService.creerCommandeDepuisPanier(userId,token);
-            return ResponseEntity.ok(commande);
+            Map<String, Object> response = commandeService.creerCommandeDepuisPanier(userId, token);
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             String messageErreur = e.getMessage().toLowerCase();
             if (messageErreur.contains("panier est vide")) {

@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -27,10 +29,11 @@ public class Livreur {
      @JsonManagedReference
     private Voiture voiture;
 
-   
+  
     private StatutLivreur statutLivreur;
-     @JsonManagedReference
-   @DBRef
+ @DBRef
+    @JsonManagedReference
 private List<Commande> commandes = new ArrayList<>();
+
     
 }

@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -23,9 +24,11 @@ public class Commande {
     private String dateCommande; 
     private Date dateAffectation;
 
+  
     @DBRef
-     @JsonBackReference
-    private Livreur livreur; 
+    @JsonBackReference
+private Livreur livreur;
+
 
    private String clientId;
 

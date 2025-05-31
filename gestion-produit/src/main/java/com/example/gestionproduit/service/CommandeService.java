@@ -11,7 +11,9 @@ import com.example.gestionproduit.service.EmailService;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Service
@@ -25,8 +27,8 @@ public class CommandeService {
     private final UserClient userClient;
     private final EmailService emailService;
 
-    public Commande creerCommandeDepuisPanier(String userId, String token) {
-        // 🔍 1. Récupérer le panier
+    public Map<String, Object> creerCommandeDepuisPanier(String userId, String token) {
+     
         Panier panier = panierRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Aucun panier trouvé pour l'utilisateur : " + userId));
 
@@ -93,7 +95,11 @@ public class CommandeService {
         // 📧 8. Envoyer l'email de confirmation
         envoyerEmailConfirmationCommande(user, savedCommande, messagePromo);
 
-        return savedCommande;
+      Map<String, Object> result = new HashMap<>();
+    result.put("commande", savedCommande);
+    result.put("messagePromo", messagePromo);
+
+    return result;
     }
 
     private String appliquerPromotion(Commande commande) {
