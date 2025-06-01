@@ -30,4 +30,7 @@ public interface UserService {
     void resetPassword(String token, String newPassword);
 
     public User createAdmin(User user);
+
+    boolean verifyEmailCode(String email, String code);
+
 }

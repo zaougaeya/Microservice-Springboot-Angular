@@ -27,20 +27,43 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     private final Map<String, String> resetTokens = new HashMap<>();
+    @Autowired
+    private com.example.gestionuser.service.MailServiceImpl mailServiceImpl;
 
     @Override
     public User register(User user) {
         System.out.println("[INFO] Starting user registration...");
+
         if (userRepository.findByMailuser(user.getMailuser()).isPresent()) {
             throw new IllegalArgumentException("Email already exists.");
         }
+
         System.out.println("[INFO] Affecting USER as role...");
         user.setRole(Role.USER);
+
         System.out.println("[INFO] Encoding password...");
         user.setPassworduser(encoder.encode(user.getPassworduser()));
+
+        // ✅ Generate verification code
+        String code = String.format("%06d", new Random().nextInt(999999));
+        user.setVerificationCode(code);
+        user.setEmailVerified(false);
+        System.out.println("🔐 Verification code for " + user.getMailuser() + ": " + code);
         System.out.println("[INFO] Saving user to database...");
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        System.out.println("[INFO] Sending verification email...");
+        String subject = "Your Verification Code";
+        String message = "Hello " + user.getPrenomuser() + ",\n\n"
+                + "Your verification code is: " + code + "\n\n"
+                + "Enter this code in the app to verify your email.\n\n"
+                + "Thank you.";
+
+        mailServiceImpl.sendEmail(user.getMailuser(), subject, message);
+
+        return savedUser;
     }
+
 
     @Override
     public String login(String email, String password) {
@@ -48,6 +71,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         if (!encoder.matches(password, user.getPassworduser())) {
             throw new RuntimeException("Invalid password");
+        }
+        if (!user.isEmailVerified()) {
+            throw new IllegalStateException("Please verify your email before logging in.");
         }
         return jwtUtil.generateToken(user);
     }
@@ -172,6 +198,22 @@ public class UserServiceImpl implements UserService {
         System.out.println("[INFO] Saving user to database...");
         return userRepository.save(user);
     }
+    @Override
+    public boolean verifyEmailCode(String email, String code) {
+        Optional<User> optionalUser = userRepository.findByMailuser(email);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (user.getVerificationCode() != null && user.getVerificationCode().equals(code)) {
+                user.setEmailVerified(true);
+                user.setVerificationCode(null); // Optional: clear code after success
+                userRepository.save(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 

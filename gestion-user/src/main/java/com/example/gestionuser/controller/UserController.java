@@ -7,6 +7,7 @@ import com.example.gestionuser.model.User;
 import com.example.gestionuser.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -32,9 +33,27 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRequestDTO dto) {
-        User createdUser = userService.register(userMapper.toEntity(dto));
-        return ResponseEntity.ok(userMapper.toDto(createdUser));
+        try {
+            User userEntity = userMapper.toEntity(dto);
+            User createdUser = userService.register(userEntity);
+            return ResponseEntity.ok("User registered. Please check your email for the verification code.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
     }
+    @PostMapping("/verify-code")
+    public ResponseEntity<?> verifyEmail(@RequestParam String email, @RequestParam String code) {
+        boolean verified = userService.verifyEmailCode(email, code);
+        if (verified) {
+            return ResponseEntity.ok("Email verified successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code.");
+        }
+    }
+
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {

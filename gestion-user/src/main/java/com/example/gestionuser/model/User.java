@@ -25,4 +25,6 @@ public class User {
 
     private Role role;
     private Job job;
+    private String verificationCode;
+    private boolean emailVerified = false;
 }

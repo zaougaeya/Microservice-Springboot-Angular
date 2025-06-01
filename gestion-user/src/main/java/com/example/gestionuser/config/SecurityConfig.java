@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 "/api/users/login",
                                 "/api/users/register",
                                 "/api/users/reset-request",
+                                "/api/users/verify-code",
                                 "/api/users/reset-password"
                         ).permitAll()
                         .anyRequest().authenticated()
@@ -67,7 +68,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedOrigins(List.of("http://localhost:4200", "http://localhost:1001"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
