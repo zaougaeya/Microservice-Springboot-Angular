@@ -17,13 +17,17 @@ public class PanierService {
     private final PanierRepository panierRepository;
     private final ProduitRepository produitRepository;
     private final UserClient userClient;
+private final CategorieStatsService categorieStatsService;
 
     public PanierService(PanierRepository panierRepository,
                          ProduitRepository produitRepository,
-                         UserClient userClient) {
+                         UserClient userClient,
+                         CategorieStatsService categorieStatsService) {
         this.panierRepository = panierRepository;
         this.produitRepository = produitRepository;
         this.userClient = userClient;
+          this.categorieStatsService = categorieStatsService;
+
     }
 
     public Panier ajouterProduitAuPanier(String userId, String produitId, int quantite, String token) {
@@ -31,7 +35,8 @@ public class PanierService {
         // 1️⃣ Vérification du produit
         Produit produit = produitRepository.findById(produitId)
                 .orElseThrow(() -> new RuntimeException("Produit non trouvé avec l'ID : " + produitId));
-
+                String nomCategorie = produit.getCategorie().getNom();
+categorieStatsService.enregistrerAjout(userId, nomCategorie);
         if (produit.getQuantiteEnStock() < quantite) {
             throw new RuntimeException("Stock insuffisant pour le produit : " + produit.getNom());
         }

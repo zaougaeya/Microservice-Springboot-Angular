@@ -27,4 +27,5 @@ List<Commande> findByLivreurIdLivreur(String idLivreur);
 
     // Trouver les commandes par statut
     List<Commande> findByStatutCommande(StatutCommande statut);
+     List<Commande> findByClientId(String clientId);
 }
