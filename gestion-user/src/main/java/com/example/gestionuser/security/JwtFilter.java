@@ -24,33 +24,37 @@ public class JwtFilter extends OncePerRequestFilter {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
+    // ✅ Skip this filter for CORS preflight requests
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return "OPTIONS".equalsIgnoreCase(request.getMethod());
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        System.out.println("🟡 JwtFilter executing for request: " + request.getRequestURI());
-
+        String path = request.getRequestURI();
         String header = request.getHeader("Authorization");
-        System.out.println("🟡 JwtFilter executing for request: " + request.getRequestURI());
-        System.out.println("🟡 Header: " + header);
+
+        System.out.println("🔍 User-service request: " + request.getMethod() + " " + path);
+        System.out.println("🔍 Header: " + header);
 
         if (header != null && header.startsWith("Bearer ")) {
             try {
                 String token = header.substring(7);
-
                 Claims claims = Jwts.parserBuilder()
                         .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)))
                         .build()
                         .parseClaimsJws(token)
                         .getBody();
 
-                String userId = claims.getSubject(); // now userId, not email
+                String userId = claims.getSubject();
                 String role = claims.get("role", String.class);
 
-                System.out.println("✅ JWT extracted userId: " + userId);
-                System.out.println("✅ JWT extracted role: " + role);
+                System.out.println("✅ JWT OK — userId: " + userId + ", role: " + role);
 
                 if (userId != null && role != null) {
                     UsernamePasswordAuthenticationToken authToken =
@@ -60,11 +64,10 @@ public class JwtFilter extends OncePerRequestFilter {
                                     Collections.singletonList(new SimpleGrantedAuthority(role))
                             );
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    System.out.println("🔐 Authentication context set with role: " + role);
                 }
 
             } catch (Exception e) {
-                System.out.println("❌ JWT validation error: " + e.getMessage());
+                System.out.println("❌ JWT error: " + e.getMessage());
                 SecurityContextHolder.clearContext();
             }
         }

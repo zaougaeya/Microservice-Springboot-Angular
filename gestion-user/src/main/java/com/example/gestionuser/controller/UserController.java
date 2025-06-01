@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +23,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
 public class UserController {
 
 
@@ -32,24 +32,31 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody UserRequestDTO dto) {
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody UserRequestDTO dto) {
         try {
             User userEntity = userMapper.toEntity(dto);
-            User createdUser = userService.register(userEntity);
-            return ResponseEntity.ok("User registered. Please check your email for the verification code.");
+            userService.register(userEntity);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User registered. Please check your email for the verification code.");
+            response.put("status", "OK");
+            System.out.println(response);
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error: " + e.getMessage()));
         }
     }
+
     @PostMapping("/verify-code")
-    public ResponseEntity<?> verifyEmail(@RequestParam String email, @RequestParam String code) {
+    public ResponseEntity<Map<String, String>> verifyEmail(@RequestParam String email, @RequestParam String code) {
         boolean verified = userService.verifyEmailCode(email, code);
         if (verified) {
-            return ResponseEntity.ok("Email verified successfully.");
+            return ResponseEntity.ok(Map.of("message", "Email verified successfully."));
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification code.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Invalid verification code."));
         }
     }
 
