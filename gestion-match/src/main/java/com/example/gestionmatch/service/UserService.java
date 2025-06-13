@@ -12,6 +12,16 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
+
+    public Optional<User> findByEmailAndIdEquipe(String email, String equipeId) {
+        return userRepository.findByEmailAndEquipeId(email, equipeId);
+    }
+
+
+
+//    public void deleteByEmail(String email) {
+//        userRepository.deleteByEmail(email);
+//    }
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

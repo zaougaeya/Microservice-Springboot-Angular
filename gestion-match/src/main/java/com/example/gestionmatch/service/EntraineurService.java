@@ -11,10 +11,11 @@ import java.util.Optional;
 @Service
 public class EntraineurService {
 
-    private final EntraineurRepository entraineurRepository;
+    @Autowired
+    private EntraineurRepository entraineurRepository;
 
-    public EntraineurService(EntraineurRepository entraineurRepository) {
-        this.entraineurRepository = entraineurRepository;
+    public Entraineur createEntraineur(Entraineur entraineur) {
+        return entraineurRepository.save(entraineur);
     }
 
     // Récupérer tous les entraîneurs

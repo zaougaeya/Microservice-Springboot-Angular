@@ -55,7 +55,7 @@ public class EquipeService {
         // 1) upload sur Cloudinary
         String logoUrl = cloudinaryService.uploadImage(logoFile);
 
-        // 2) construction de l'entité
+
         Equipe equipe = new Equipe();
         equipe.setNameEquipe(nameEquipe);
         equipe.setLogo(logoUrl);

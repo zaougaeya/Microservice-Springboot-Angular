@@ -13,9 +13,9 @@ public class SessionDeJeu {
     @Id
     private String id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Europe/Paris")
+    @JsonFormat(/*pattern = "yyyy-MM-dd'T'HH:mm:ss", */timezone = "Europe/Paris")
     private LocalDateTime startDate;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Europe/Paris")
+    @JsonFormat(/*pattern = "yyyy-MM-dd'T'HH:mm:ss", */timezone = "Europe/Paris")
     private LocalDateTime endDate;
 
     private String typeMatch;

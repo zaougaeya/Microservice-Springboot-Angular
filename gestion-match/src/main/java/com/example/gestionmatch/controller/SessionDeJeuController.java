@@ -79,7 +79,7 @@ public class SessionDeJeuController {
         System.err.println("idSession" + id);
         System.err.println("equipeId" + equipeId);
 
-        sessionService.rejoindreSession(id, equipeId);
+      //  sessionService.rejoindreSession(id, equipeId);
     }
 
 }

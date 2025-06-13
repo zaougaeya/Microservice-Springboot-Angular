@@ -3,12 +3,14 @@ package com.example.gestionmatch.controller;
 import com.example.gestionmatch.model.Match;
 import com.example.gestionmatch.repository.MatchRepository;
 import com.example.gestionmatch.service.MatchService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -196,6 +198,27 @@ public class MatchController {
         Map<String, Map<String, Integer>> stats = matchService.calculerStatistiquesParEquipeEtDates(dateD, dateF);
         System.out.println(dateD + "............." + dateF);
         return ResponseEntity.ok(stats);
+    }
+    @GetMapping("/search")
+    public List<Match> searchMatchs(
+            @RequestParam("dateDebut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateDebut,
+            @RequestParam("dateFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFin,
+            @RequestParam("type") String type) {
+
+        return matchService.searchMatchs(dateDebut, dateFin, type);
+    }
+
+
+    @PostMapping("/rejoindreMatch/{equipeId}/{id}")
+    public void rejoindreMatch(@RequestHeader("Authorization") String authHeader,
+                               @PathVariable String equipeId,
+                               @PathVariable String id) {
+        matchService.rejoindreMatch(id, equipeId, authHeader);
+    }
+
+    @GetMapping("/joues")
+    public List<Match> getMatchsJoues() {
+        return matchService.getMatchsJoues();
     }
 
 }

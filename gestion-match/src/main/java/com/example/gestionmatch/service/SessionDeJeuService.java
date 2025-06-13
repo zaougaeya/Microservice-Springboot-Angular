@@ -21,8 +21,6 @@ public class SessionDeJeuService {
         this.sessionRepo = sessionRepo;
         this.userRepository = userRepository;
     }
-    // ✅ Constructeur recommandé pour l'injection de dépendance
-
 
     public List<SessionDeJeu> getAllSessions() {
         return sessionRepo.findAll();
@@ -56,24 +54,9 @@ public class SessionDeJeuService {
     public List<SessionDeJeu> findByTerrainId(String terrainId) {
         return sessionRepo.findByTerrainId(terrainId);
     }
+
     public List<SessionDeJeu> searchSessions(LocalDateTime dateDebut, LocalDateTime dateFin, String typeMatch) {
         return sessionRepo.findByDateAndType(dateDebut, dateFin, typeMatch);
-    }
-
-public void rejoindreSession(String idSession, String equipeId) {
-    System.err.println("id" + idSession);
-
-SessionDeJeu session = sessionRepo.findById(idSession).get();
- int n=   session.getJoueursInscrits();
- n++;
- session.setJoueursInscrits(n);
- session.getJoueurs().add("6819fd7706093610282c9fbe");
-    System.err.println("session" + session);
- sessionRepo.save(session);
-
-    Optional<User>  user= userRepository.findById("6819fd7706093610282c9fbe");
-    user.get().setEquipeId(equipeId);
-    userRepository.save(user.get());
     }
 
 }

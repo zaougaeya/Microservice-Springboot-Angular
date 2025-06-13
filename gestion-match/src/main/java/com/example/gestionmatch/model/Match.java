@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -15,7 +16,7 @@ public class Match {
     private String id;
 
     private Date date;
-    private Date startDate;
+    private Date  startDate;
     private Date endDate;
 
     private String type;
@@ -40,6 +41,8 @@ public class Match {
     private Integer cartonsRougesEquipe2 = null;
     private Integer fautesEquipe1 = null;
     private Integer fautesEquipe2 = null;
-
+    private int joueurMax;
+    private int joueurInscrit1;
+    private int joueurInscrit2;
     private boolean matchJoue;
 }
