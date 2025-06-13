@@ -1,4 +1,4 @@
 package com.example.gestionmatch.service;
 
-public class MatchService {
+public class EmailService {
 }
