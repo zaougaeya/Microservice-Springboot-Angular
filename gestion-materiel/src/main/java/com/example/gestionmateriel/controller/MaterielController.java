@@ -61,9 +61,8 @@ public class MaterielController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Materiel> getMaterielById(@PathVariable String id) {
-        return materielService.getMaterielById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        Materiel materiel = materielService.getMaterielById(id);
+        return ResponseEntity.ok(materiel);
     }
 
     @PostMapping
@@ -71,9 +70,7 @@ public class MaterielController {
                                                    @RequestHeader("Authorization") String token) {
         try {
             UserResponseDTO user = userClient.getCurrentUser(token);
-            //materiel.setCreatedByUserId(user.id()); // Link material to current user
-            System.out.println(user);
-
+            // materiel.setCreatedByUserId(user.id()); // Optional
             Materiel createdMateriel = materielService.createMateriel(materiel);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
@@ -92,10 +89,12 @@ public class MaterielController {
                                                             @RequestParam("quantity") int quantity,
                                                             @RequestParam(value = "color", required = false) String color,
                                                             @RequestParam("state") String state,
-                                                            @RequestParam(value = "price", required = false) Double price,
+                                                            @RequestParam("price") Double price,
+                                                            @RequestParam(value = "noteInterne", required = false) String noteInterne,
                                                             @RequestHeader("Authorization") String token) {
         try {
-            UserResponseDTO user = userClient.getCurrentUser(token);
+            // TEMPORAIRE : désactiver la récupération de l'utilisateur
+            // UserResponseDTO user = userClient.getCurrentUser(token);
 
             Materiel materiel = new Materiel();
             materiel.setName(name);
@@ -104,7 +103,8 @@ public class MaterielController {
             materiel.setColor(color);
             materiel.setState(state);
             materiel.setPrice(price);
-           // materiel.setCreatedByUserId(user.id());
+            materiel.setNoteInterne(noteInterne);
+            // materiel.setCreatedByUserId(user.id()); // déjà commenté
 
             String imageUrl = materielService.saveImage(file);
             materiel.setImageUrl(imageUrl);
@@ -116,13 +116,15 @@ public class MaterielController {
                     .toUri();
             return ResponseEntity.created(location).body(createdMateriel);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Échec du téléchargement de l'image", e);
         }
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Materiel> updateMateriel(@PathVariable String id, @RequestBody Materiel materiel) {
-        Optional<Materiel> existingMateriel = materielService.getMaterielById(id);
+        Optional<Materiel> existingMateriel = materielService.getMaterielByIdOptional(id);
         if (existingMateriel.isPresent()) {
             materiel.setId(id);
             Materiel updatedMateriel = materielService.updateMateriel(id, materiel);

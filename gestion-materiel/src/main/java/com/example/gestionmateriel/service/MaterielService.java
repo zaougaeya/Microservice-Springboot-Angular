@@ -42,10 +42,18 @@ public class MaterielService {
         return materielRepository.findAll(pageable);
     }
 
-    public Optional<Materiel> getMaterielById(String id) {
-        return materielRepository.findById(id);
+
+    public Materiel getMaterielById(String id) {
+        return materielRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Matériel introuvable avec l'ID : " + id));
     }
 
+    public List<Materiel> getAllMateriels() {
+        return materielRepository.findAll();
+    }
+    public Optional<Materiel> getMaterielByIdOptional(String id) {
+        return materielRepository.findById(id);
+    }
     public Materiel createMateriel(Materiel materiel) {
         return materielRepository.save(materiel);
     }
@@ -83,4 +91,5 @@ public class MaterielService {
         materiel.setImageUrl(imageUrl);
         return materielRepository.save(materiel);
     }
+
 }

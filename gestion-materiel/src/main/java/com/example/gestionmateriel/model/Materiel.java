@@ -17,7 +17,10 @@ public class Materiel {
     private String state;
     private String imageUrl; // Nouveau champ pour l'URL de la photo
     private Double price;
+    private  String noteInterne;
     private  String  reservedDates;
+    private String createdByName; // pour affichage
+
 
 
 

@@ -31,4 +31,19 @@ public class Reservation {
 
     // Optionnel mais utile pour audit/logs
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    private String userId;
+    private String terrain; // ex: "Foot", "Padel", "Tennis"
+
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }
+
+
+

@@ -7,12 +7,27 @@ import java.time.LocalDateTime;
 
 @Data
 public class ReservationCreateDTO {
-    private String reservedBy;
     private String materielId;
+    private String terrain;
+    private int quantity;
+    private String note;
+    private String startDate;
+    private String endDate;
+    private String reservedBy;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime startDate;
+    public String getStartDate() {
+        return startDate;
+    }
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime endDate;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 }
