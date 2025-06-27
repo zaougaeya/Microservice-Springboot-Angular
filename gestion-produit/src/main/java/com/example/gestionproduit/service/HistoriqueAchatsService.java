@@ -14,44 +14,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Service // Indique à Spring que c'est un service
-@RequiredArgsConstructor // Génère un constructeur avec tous les champs 'final' pour l'injection de dépendances
+@Service 
+@RequiredArgsConstructor 
 public class HistoriqueAchatsService {
 
-    // Injection des dépôts nécessaires pour accéder aux données des commandes
+  
     private final CommandeRepository commandeRepository;
     private final CommandeProduitRepository commandeProduitRepository; // Nécessaire pour charger les détails des produits de commande
 
     /**
-     * Récupère les catégories de produits les plus fréquemment achetées par un utilisateur
-     * en analysant son historique de commandes finalisées.
+     
      *
-     * Cette méthode parcourt toutes les commandes d'un utilisateur, puis pour chaque commande,
-     * elle récupère les produits associés (via CommandeProduit) et compte la fréquence
-     * d'apparition de chaque catégorie de produit.
+     * 
+     * 
+
      *
-     * @param userId L'ID de l'utilisateur pour lequel récupérer l'historique d'achats.
+     * @param userId 
      * @return Une liste de noms de catégories, triée par ordre décroissant de fréquence d'achat.
-     * Les catégories les plus achetées apparaissent en premier.
+     
      */
     public List<String> getTopCategoriesFromPurchases(String userId) {
-        // 1. Récupérer toutes les commandes finalisées pour l'utilisateur donné.
-        // Votre modèle Commande utilise 'clientId', donc le dépôt doit avoir 'findByClientId'.
+        
         List<Commande> commandes = commandeRepository.findByClientId(userId);
 
         // Map pour stocker la fréquence (nombre total de quantités achetées) pour chaque catégorie.
         // La clé est le nom de la catégorie (String), la valeur est la fréquence (Integer).
         Map<String, Integer> categorieFrequencies = new HashMap<>();
 
-        // 2. Parcourir chaque commande pour extraire les produits et leurs catégories.
+        // 2. Parcourir chaque commande besh ye3ml l'extration des commandes
         for (Commande commande : commandes) {
-            // Les produits dans une commande sont des @DBRef dans CommandeProduit.
-            // Il faut les charger explicitement en utilisant commandeProduitRepository.
+          
+            // Il faut les charger explicitement en utilisant commandeProduitRepository bitbi3a
             List<CommandeProduit> produitsCommande = commandeProduitRepository.findByCommande(commande);
 
-            // Vérifier que la liste des produits dans la commande n'est pas nulle
+            // verifiii el liste mich nulle
             if (produitsCommande != null) {
-                // 3. Pour chaque produit dans la commande, extraire sa catégorie et mettre à jour la fréquence.
+                // Pour chaque produit dans la commande, extraire sa catégorie et mettre à jour la fréquence.
                 for (CommandeProduit cp : produitsCommande) {
                     Produit produit = cp.getProduit(); // Accéder à l'objet Produit référencé
 
@@ -66,7 +64,7 @@ public class HistoriqueAchatsService {
             }
         }
 
-        // 4. Trier les catégories par leur fréquence d'achat (du plus fréquent au moins fréquent).
+        //  Trier les catégories par leur fréquence d'achat
         // Convertir la map en un Stream d'entrées (clé-valeur).
         return categorieFrequencies.entrySet().stream()
                 // Trier les entrées en comparant leurs valeurs (fréquences) dans l'ordre décroissant.
@@ -78,12 +76,10 @@ public class HistoriqueAchatsService {
     }
 
     /**
-     * Méthode auxiliaire (non utilisée directement pour les recommandations de catégories,
-     * mais peut être utile pour d'autres cas si vous voulez la liste des produits achetés).
      * Récupère tous les produits uniques qui ont été achetés par un utilisateur.
-     *
-     * @param userId L'ID de l'utilisateur.
-     * @return Une liste de produits uniques achetés.
+     
+      @param userId 
+      @return Une liste de produits uniques achetés.
      */
     public List<Produit> getProduitsAchetesUniques(String userId) {
         List<Commande> commandes = commandeRepository.findByClientId(userId);
@@ -95,11 +91,11 @@ public class HistoriqueAchatsService {
                 for (CommandeProduit cp : produitsCommande) {
                     Produit produit = cp.getProduit();
                     if (produit != null) {
-                        uniqueProduitsMap.put(produit.getId(), produit); // Ajoute ou met à jour (si déjà présent) le produit
+                        uniqueProduitsMap.put(produit.getId(), produit); 
                     }
                 }
             }
         }
-        return new ArrayList<>(uniqueProduitsMap.values()); // Retourne les valeurs (Produits) de la map
+        return new ArrayList<>(uniqueProduitsMap.values()); // Retourne les valeurs mte les produits fil map
     }
 }
