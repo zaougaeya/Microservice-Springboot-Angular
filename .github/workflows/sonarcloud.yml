@@ -11,29 +11,39 @@ on:
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ☕ Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Cache Maven packages
+      - name: 📦 Cache Maven dependencies
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('gestion-produit/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build and analyze on SonarCloud
+      - name: 🔧 Install user-api locally
+        run: mvn -f user-api/pom.xml clean install -DskipTests
+
+      - name: 🧪 Run Tests (gestion-produit)
+        run: mvn test
+        working-directory: gestion-produit
+
+      - name: 🔍 SonarCloud Scan (gestion-produit)
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -f gestion-produit/pom.xml clean verify sonar:sonar \
+          mvn verify sonar:sonar \
             -Dsonar.projectKey=zaougaeya_Microservice-Springboot-Angular \
             -Dsonar.organization=zaougaeya \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=$SONAR_TOKEN
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        working-directory: gestion-produit
