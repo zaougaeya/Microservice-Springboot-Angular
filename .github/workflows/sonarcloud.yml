@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - gestion-produit
+      - main
   pull_request:
     branches:
       - gestion-produit
+      - main
 
 jobs:
   sonarcloud:
