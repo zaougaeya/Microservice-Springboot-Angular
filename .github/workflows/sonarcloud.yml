@@ -30,11 +30,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      # Installer user-api localement dans le dépôt Maven local
       - name: 🔧 Installer user-api localement
-        run: mvn -f user-api/pom.xml clean install -DskipTests
+        run: mvn clean install -DskipTests
+        working-directory: user-api
 
-      - name: 🧪 Exécuter tests + rapport JaCoCo
-        run: mvn clean test jacoco:report
+      # Construire et tester gestion-produit, user-api sera pris depuis le dépôt local Maven (~/.m2/repository)
+      - name: 🧪 Exécuter tests + couverture
+        run: mvn clean verify
         working-directory: gestion-produit
 
       - name: 📂 Upload des rapports de test et couverture
