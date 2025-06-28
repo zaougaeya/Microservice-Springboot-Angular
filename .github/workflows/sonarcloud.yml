@@ -3,15 +3,16 @@ name: SonarCloud
 on:
   push:
     branches:
-      - main    # Analyse à chaque push sur main, ta branche principale
+      - main
   pull_request:
     branches:
       - main
 
 jobs:
-  sonarcloud:
+  sonarcloud-init:
     runs-on: ubuntu-latest
-
+    outputs:
+      m2-cache-key: ${{ steps.cache.outputs.cache-hit }}
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
@@ -23,6 +24,7 @@ jobs:
           java-version: 17
 
       - name: 📦 Cache Maven dependencies
+        id: cache
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
@@ -33,9 +35,35 @@ jobs:
       - name: 🔧 Install user-api locally
         run: mvn -f user-api/pom.xml clean install -DskipTests
 
+  build:
+    needs: sonarcloud-init
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
       - name: 🏗️ Build gestion-produit
         run: mvn clean install
         working-directory: gestion-produit
+
+  test_and_scan:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
 
       - name: 🧪 Run Tests (gestion-produit)
         run: mvn test
