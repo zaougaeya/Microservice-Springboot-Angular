@@ -3,7 +3,7 @@ name: SonarCloud
 on:
   push:
     branches:
-      - main    # Analyse à chaque push sur main, car c’est ta branche principale maintenant
+      - main    # Analyse à chaque push sur main, ta branche principale
   pull_request:
     branches:
       - main
@@ -32,6 +32,10 @@ jobs:
 
       - name: 🔧 Install user-api locally
         run: mvn -f user-api/pom.xml clean install -DskipTests
+
+      - name: 🏗️ Build gestion-produit
+        run: mvn clean install
+        working-directory: gestion-produit
 
       - name: 🧪 Run Tests (gestion-produit)
         run: mvn test
