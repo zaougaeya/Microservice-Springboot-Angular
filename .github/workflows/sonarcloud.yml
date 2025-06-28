@@ -1,22 +1,22 @@
-name: SonarCloud
+name: CI - Build and SonarCloud Scan
 
 on:
   push:
     branches:
-      - main    # Analyse à chaque push sur main, ta branche principale
+      - main
   pull_request:
     branches:
       - main
 
 jobs:
-  sonarcloud:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: ☕ Set up JDK 17
+      - name: ☕ Setup JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: temurin
@@ -30,10 +30,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: 🔧 Install user-api locally
-        run: mvn -f user-api/pom.xml clean install -DskipTests
+      - name: 🔧 Install user-api locally (skip tests)
+        run: mvn clean install -DskipTests -f user-api/pom.xml
 
-      - name: 🏗️ Build gestion-produit
+      - name: 🏗️ Build gestion-produit (clean install)
         run: mvn clean install
         working-directory: gestion-produit
 
@@ -41,13 +41,26 @@ jobs:
         run: mvn test
         working-directory: gestion-produit
 
+  sonarcloud:
+    needs: build   # Attend que le job 'build' soit fini avant de démarrer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ☕ Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
       - name: 🔍 SonarCloud Scan (gestion-produit)
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn verify sonar:sonar \
-            -Dsonar.projectKey=zaougaeya_Microservice-Springboot-Angular \
-            -Dsonar.organization=zaougaeya \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn verify sonar:sonar \
+          -Dsonar.projectKey=zaougaeya_Microservice-Springboot-Angular \
+          -Dsonar.organization=zaougaeya \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         working-directory: gestion-produit
