@@ -3,11 +3,10 @@ name: SonarCloud
 on:
   push:
     branches:
-      - gestion-produit
-
+      - main    # Analyse à chaque push sur main, car c’est ta branche principale maintenant
   pull_request:
     branches:
-      - gestion-produit
+      - main
 
 jobs:
   sonarcloud:
@@ -41,8 +40,7 @@ jobs:
       - name: 🔍 SonarCloud Scan (gestion-produit)
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn verify sonar:sonar \
+        run: mvn verify sonar:sonar \
             -Dsonar.projectKey=zaougaeya_Microservice-Springboot-Angular \
             -Dsonar.organization=zaougaeya \
             -Dsonar.host.url=https://sonarcloud.io \
