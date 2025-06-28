@@ -38,7 +38,7 @@ jobs:
         working-directory: gestion-produit
 
       - name: 📂 Upload des rapports de test et couverture
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: gestion-produit/target/site/jacoco/jacoco.xml
@@ -58,7 +58,7 @@ jobs:
           java-version: 17
 
       - name: 📂 Télécharger les rapports générés par le job test
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: reports
           path: gestion-produit/target/site/jacoco
