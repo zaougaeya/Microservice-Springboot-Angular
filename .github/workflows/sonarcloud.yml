@@ -71,7 +71,7 @@ jobs:
           java-version: 17
 
       - name: 📁 Copier settings.xml
-        run: cp settings.xml $HOME/.m2/settings.xml
+        run: cp .github/workflows/settings.xml $HOME/.m2/settings.xml
 
       - name: 📂 Télécharger les rapports générés par le job test
         uses: actions/download-artifact@v4
