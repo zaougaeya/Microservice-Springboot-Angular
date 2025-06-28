@@ -35,7 +35,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: 📁 Copier settings.xml
-        run: cp settings.xml $HOME/.m2/settings.xml
+        run: cp .github/workflows/settings.xml $HOME/.m2/settings.xml
 
       - name: 🔧 Installer user-api localement
         run: mvn clean install -DskipTests -s $HOME/.m2/settings.xml
