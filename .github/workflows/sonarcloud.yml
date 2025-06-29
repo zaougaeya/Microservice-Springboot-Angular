@@ -11,7 +11,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     env:
       NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -54,7 +53,6 @@ jobs:
   sonar:
     needs: test
     runs-on: ubuntu-latest
-
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
@@ -71,13 +69,13 @@ jobs:
       - name: Copier settings.xml
         run: cp .github/workflows/settings.xml $HOME/.m2/settings.xml
 
-      - name: Télécharger les rapports générés par le job test
+      - name: Télécharger les rapports générés
         uses: actions/download-artifact@v4
         with:
           name: reports
           path: gestion-produit/target/site/jacoco
 
-      - name: Compiler + analyser avec SonarCloud
+      - name: Analyse SonarCloud
         run: |
           mvn clean compile sonar:sonar \
             -Dsonar.projectKey=zaougaeya_Microservice-Springboot-Angular \
@@ -91,7 +89,6 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
-
     env:
       NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -109,14 +106,14 @@ jobs:
       - name: Copier settings.xml
         run: cp .github/workflows/settings.xml $HOME/.m2/settings.xml
 
-      - name: Deploy gestion-produit vers Nexus
+      - name: Deploy vers Nexus (artefacts Maven)
         run: mvn clean deploy -DskipTests -s $HOME/.m2/settings.xml
         working-directory: gestion-produit
 
   docker-push:
+    name: Build & Push Docker Image to Nexus
     needs: deploy
     runs-on: ubuntu-latest
-
     env:
       NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
@@ -126,10 +123,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Docker Buildx (optionnel pour builder multi-arch)
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Login to Nexus Docker Registry
+      - name: Docker login to Nexus Registry
         uses: docker/login-action@v2
         with:
           registry: ${{ env.NEXUS_DOCKER_URL }}
@@ -139,5 +136,5 @@ jobs:
       - name: Build Docker image
         run: docker build -t $NEXUS_DOCKER_URL/gestion-produit:0.0.1 .
 
-      - name: Push Docker image to Nexus
+      - name: Push Docker image
         run: docker push $NEXUS_DOCKER_URL/gestion-produit:0.0.1

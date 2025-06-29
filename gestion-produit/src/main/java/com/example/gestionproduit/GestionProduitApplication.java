@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableFeignClients(basePackages = "com.example.userapi") 
+@EnableFeignClients(basePackages = "com.example.userapi.client")
 @EnableDiscoveryClient
 @ComponentScan(basePackages = {
     "com.example.gestionproduit",
