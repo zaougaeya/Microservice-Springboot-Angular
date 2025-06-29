@@ -3,19 +3,11 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                               https://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-  <mirrors>
-    <mirror>
-      <id>nexus</id>
-      <mirrorOf>external:*</mirrorOf> <!-- Ne remplace que les dépôts externes non définis -->
-      <url>https://89e3-197-15-124-194.ngrok-free.app/repository/maven-public/</url>
-    </mirror>
-  </mirrors>
-
   <servers>
     <server>
       <id>nexus-releases</id>
-      <username>${env.NEXUS_USERNAME}</username>
-      <password>${env.NEXUS_PASSWORD}</password>
+      <username>admin</username>
+      <password>admin</password>
     </server>
   </servers>
 
@@ -26,24 +18,16 @@
         <repository>
           <id>nexus-releases</id>
           <url>https://89e3-197-15-124-194.ngrok-free.app/repository/maven-releases/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
         </repository>
       </repositories>
       <pluginRepositories>
         <pluginRepository>
           <id>nexus-releases</id>
           <url>https://89e3-197-15-124-194.ngrok-free.app/repository/maven-releases/</url>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>false</enabled></snapshots>
         </pluginRepository>
       </pluginRepositories>
     </profile>
