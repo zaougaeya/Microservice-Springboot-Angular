@@ -79,9 +79,9 @@ jobs:
           name: reports
           path: gestion-produit/target/site/jacoco
 
-      - name: 🔍 Analyser avec SonarCloud
+      - name: 🔍 Compiler + analyser avec SonarCloud
         run: |
-          mvn sonar:sonar \
+          mvn clean compile sonar:sonar \
             -Dsonar.projectKey=zaougaeya_Microservice-Springboot-Angular \
             -Dsonar.organization=zaougaeya \
             -Dsonar.host.url=https://sonarcloud.io \
