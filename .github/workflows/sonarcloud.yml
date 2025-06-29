@@ -120,7 +120,7 @@ jobs:
     env:
       NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
       NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-      NEXUS_DOCKER_URL: localhost:5000  # adapte selon ton URL Nexus Docker
+      NEXUS_DOCKER_URL: localhost:5000
 
     steps:
       - name: Checkout repository
