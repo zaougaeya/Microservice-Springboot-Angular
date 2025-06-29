@@ -56,8 +56,6 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:
@@ -88,4 +86,29 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.coverage.jacoco.xmlReportPaths=gestion-produit/target/site/jacoco/jacoco.xml \
             -s $HOME/.m2/settings.xml
+        working-directory: gestion-produit
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    env:
+      NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+      NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ☕ Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: 📁 Copier settings.xml
+        run: cp .github/workflows/settings.xml $HOME/.m2/settings.xml
+
+      - name: 🚀 Deploy gestion-produit vers Nexus
+        run: mvn clean deploy -DskipTests -s $HOME/.m2/settings.xml
         working-directory: gestion-produit
